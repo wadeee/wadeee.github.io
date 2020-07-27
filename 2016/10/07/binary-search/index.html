@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wadeee.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在单调中寻找，在起伏中失效  关于二分法单调区间中寻找特定元素的高效算法。 使用核心 区间单调  在单调模型上求目标解，非单调模型不可使用   时间效率O(logn)  核心代码   12345678910def binarysearch(array, target):    head &#x3D; 0    tail &#x3D; len(array) - 1    while head &lt; tail:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Binary Search(二分法)">
+<meta property="og:url" content="https://wadeee.github.io/2016/10/07/binary-search/index.html">
+<meta property="og:site_name" content="Wade">
+<meta property="og:description" content="在单调中寻找，在起伏中失效  关于二分法单调区间中寻找特定元素的高效算法。 使用核心 区间单调  在单调模型上求目标解，非单调模型不可使用   时间效率O(logn)  核心代码   12345678910def binarysearch(array, target):    head &#x3D; 0    tail &#x3D; len(array) - 1    while head &lt; tail:">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-10-07T15:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-18T13:55:21.095Z">
+<meta property="article:author" content="Wade">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://wadeee.github.io/2016/10/07/binary-search/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Binary Search(二分法) | Wade</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wade</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Know yourself.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>Commonweal 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://wadeee.github.io/2016/10/07/binary-search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Wade">
+      <meta itemprop="description" content="一切都会好的，城南的花都开了。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wade">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Binary Search(二分法)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-07 23:00:00" itemprop="dateCreated datePublished" datetime="2016-10-07T23:00:00+08:00">2016-10-07</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>在单调中寻找，在起伏中失效</p>
+</blockquote>
+<h2 id="关于二分法"><a href="#关于二分法" class="headerlink" title="关于二分法"></a>关于二分法</h2><p>单调区间中寻找特定元素的高效算法。</p>
+<h2 id="使用核心"><a href="#使用核心" class="headerlink" title="使用核心"></a>使用核心</h2><ul>
+<li><p>区间单调</p>
+<ul>
+<li>在单调模型上求目标解，非单调模型不可使用</li>
+</ul>
+</li>
+<li><p>时间效率<code>O(logn)</code></p>
+</li>
+<li><p>核心代码</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binarysearch</span><span class="params">(array, target)</span>:</span></span><br><span class="line">    head = <span class="number">0</span></span><br><span class="line">    tail = len(array) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> head &lt; tail:</span><br><span class="line">        mid = (head + tail) &gt;&gt; <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> array[mid] &lt; target:</span><br><span class="line">            head = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tail = mid</span><br><span class="line">    <span class="keyword">return</span> head</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><ul>
+<li><p>题意反推</p>
+<p>  很多需要用二分法的题目，会在数据范围上暴露信息。</p>
+<p>  比如<code>(0 &lt; M &lt;= 100000000)</code>，<br>  这种数据范围一般会和时间复杂度为<code>O(logn)</code>的算法有关系，<br>  快排堆排线段树等等。</p>
+</li>
+</ul>
+<h2 id="LeetCode真题"><a href="#LeetCode真题" class="headerlink" title="LeetCode真题"></a>LeetCode真题</h2><h3 id="704-Binary-Search"><a href="#704-Binary-Search" class="headerlink" title="704. Binary Search"></a>704. Binary Search</h3><p>用二分法在有序数组中查找元素。<br><a href="https://leetcode.com/problems/binary-search/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: nums &#x3D; [-1,0,3,5,9,12], target &#x3D; 9</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: 9 exists in nums and its index is 4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：实现原理。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_search</span><span class="params">(nums, target)</span>:</span></span><br><span class="line">    l, r = <span class="number">0</span>, len(nums)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> nums[mid] &gt; target:</span><br><span class="line">            r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> nums[mid] &lt; target:</span><br><span class="line">            l = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：使用标准库。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> bisect <span class="keyword">import</span> bisect_left </span><br><span class="line">    index = bisect_left(nums, target)</span><br><span class="line">    <span class="keyword">return</span> index <span class="keyword">if</span> index &lt; len(nums) <span class="keyword">and</span> nums[index] == target <span class="keyword">else</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="35-Search-Insert-Position"><a href="#35-Search-Insert-Position" class="headerlink" title="35. Search Insert Position"></a>35. Search Insert Position</h3><p>给定一个target，插入到一个有序数组中，假定数组中无重复元素。<br><a href="https://leetcode.com/problems/search-insert-position/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,3,5,6], 5</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：实现原理。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_insert</span><span class="params">(nums, target)</span>:</span></span><br><span class="line">    l, r = <span class="number">0</span>, len(nums)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> nums[mid] &gt; target:</span><br><span class="line">            r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> nums[mid] &lt; target:</span><br><span class="line">            l = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：使用标准库。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">searchInsert</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> bisect <span class="keyword">import</span> bisect_left</span><br><span class="line">    <span class="keyword">return</span> bisect_left(nums, target)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="153-Find-Minimum-in-Rotated-Sorted-Array"><a href="#153-Find-Minimum-in-Rotated-Sorted-Array" class="headerlink" title="153. Find Minimum in Rotated Sorted Array"></a>153. Find Minimum in Rotated Sorted Array</h3><p>通过一个排序数组旋转后的结果，找出最小元素。<br><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [3,4,5,1,2] </span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>思路：通过二分法不断缩小范围，由于mid是整除，最后l==mid，并且nums[mid] &gt; nums[r]的。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_min</span><span class="params">(nums)</span>:</span></span><br><span class="line">    l, r = <span class="number">0</span>, len(nums)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">if</span> nums[l] &lt; nums[r]:</span><br><span class="line">        <span class="keyword">return</span> nums[l]</span><br><span class="line">    <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> nums[mid] &gt; nums[l]:</span><br><span class="line">            l = mid</span><br><span class="line">        <span class="keyword">elif</span> nums[mid] &lt; nums[r]:</span><br><span class="line">            r = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> nums[r]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="34-Find-First-and-Last-Position-of-Element-in-Sorted-Array"><a href="#34-Find-First-and-Last-Position-of-Element-in-Sorted-Array" class="headerlink" title="34. Find First and Last Position of Element in Sorted Array"></a>34. Find First and Last Position of Element in Sorted Array</h3><p>有序数组中查找数组，返回数字的索引范围。<br><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: nums &#x3D; [5,7,7,8,8,10], target &#x3D; 8</span><br><span class="line">Output: [3,4]</span><br><span class="line">Input: nums &#x3D; [5,7,7,8,8,10], target &#x3D; 6</span><br><span class="line">Output: [-1,-1]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">searchRange</span><span class="params">(self, nums, target)</span>:</span></span><br><span class="line"></span><br><span class="line">    left_idx = self.search_edge(nums, target, <span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> left_idx == len(nums) <span class="keyword">or</span> nums[left_idx] != target:</span><br><span class="line">        <span class="keyword">return</span> [<span class="number">-1</span>, <span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> [left_idx, self.search_edge(nums, target, <span class="literal">False</span>)<span class="number">-1</span>]</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_edge</span><span class="params">(self, nums, target, left)</span>:</span></span><br><span class="line">    l, r = <span class="number">0</span>, len(nums)</span><br><span class="line">    <span class="keyword">while</span> l &lt; r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> nums[mid] &gt; target <span class="keyword">or</span> (left <span class="keyword">and</span> nums[mid]==target):</span><br><span class="line">            r = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="278-First-Bad-Version"><a href="#278-First-Bad-Version" class="headerlink" title="278. First Bad Version"></a>278. First Bad Version</h3><p>找出提交版本中的bad version。<br><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Given n &#x3D; 5, and version &#x3D; 4 is the first bad version.</span><br><span class="line"></span><br><span class="line">call isBadVersion(3) -&gt; false</span><br><span class="line">call isBadVersion(5) -&gt; true</span><br><span class="line">call isBadVersion(4) -&gt; true</span><br><span class="line"></span><br><span class="line">Then 4 is the first bad version.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">firstBadVersion</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    l, r = <span class="number">1</span>, n</span><br><span class="line">    <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> isBadVersion(mid):</span><br><span class="line">            r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            l = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="374-Guess-Number-Higher-or-Lower"><a href="#374-Guess-Number-Higher-or-Lower" class="headerlink" title="374. Guess Number Higher or Lower"></a>374. Guess Number Higher or Lower</h3><p>猜数游戏1~n，每猜一次会告诉你答案是更小还是更大。<br><a href="https://leetcode.com/problems/guess-number-higher-or-lower/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def guess(num):</span><br><span class="line">    return</span><br><span class="line">    -1 : My number is lower</span><br><span class="line">     1 : My number is higher</span><br><span class="line">     0 : Congrats! You got it!</span><br><span class="line">     </span><br><span class="line">Input: n &#x3D; 10, pick &#x3D; 6</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：实现原理。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">guessNumber</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    l, r = <span class="number">1</span>, n</span><br><span class="line">    <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">        mid = (l+r) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> guess(mid) == <span class="number">-1</span>:</span><br><span class="line">            r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> guess(mid) == <span class="number">1</span>:</span><br><span class="line">            l = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：使用标准库。核心思想为将guess返回的结果转为一个数组，然后使用二分法查找。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">guessNumber</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> bisect <span class="keyword">import</span> bisect, bisect_left</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">            <span class="keyword">return</span> -guess(x)</span><br><span class="line">    <span class="comment"># return bisect(C(), -1, 1, n)</span></span><br><span class="line">    <span class="keyword">return</span> bisect_left(C(), <span class="number">0</span>, <span class="number">1</span>, n)</span><br></pre></td></tr></table></figure>
+
+<p>  解析：以n=10, pick=6为例。实际上C class相当于:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ary &#x3D; map(lambda x: -guess(x), range(1, n+1))</span><br><span class="line">ary.insert(0, None)</span><br><span class="line"># ary &#x3D; [None, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1]</span><br><span class="line">return bisect(ary, -1, 1, n)</span><br></pre></td></tr></table></figure>
+
+<p>  而索引又是从1开始，所以这里在前面添加了一个None，实际上将题转为了查找ary的0，问题便迎刃而解。<br>  值得注意的是，如果使用了map，会导致空间，时间复杂度增加，而使用class的方法，并没有求出整个的list，<br>  所以效率更高。</p>
+</li>
+</ul>
+<h3 id="744-Find-Smallest-Letter-Greater-Than-Target"><a href="#744-Find-Smallest-Letter-Greater-Than-Target" class="headerlink" title="744. Find Smallest Letter Greater Than Target"></a>744. Find Smallest Letter Greater Than Target</h3><p>找出比目标大的最小字母，没有的返回首字母<br><a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;d&quot;</span><br><span class="line">Output: &quot;f&quot;</span><br><span class="line"></span><br><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;g&quot;</span><br><span class="line">Output: &quot;j&quot;</span><br><span class="line"></span><br><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;j&quot;</span><br><span class="line">Output: &quot;c&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：实现原理。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nextGreatestLetter</span><span class="params">(self, letters: <span class="string">'List[str]'</span>, target: <span class="string">'str'</span>)</span> -&gt; 'str':</span></span><br><span class="line">    lo, hi = <span class="number">0</span>, len(letters)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> lo &lt;= hi:</span><br><span class="line">        mid = (lo + hi) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> letters[mid] &gt; target:</span><br><span class="line">            hi = mid <span class="number">-1</span></span><br><span class="line">        <span class="keyword">elif</span> letters[mid] &lt;= target:</span><br><span class="line">            lo = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> letters[lo % len(letters)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：使用库。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nextGreatestLetter</span><span class="params">(self, letters: <span class="string">'List[str]'</span>, target: <span class="string">'str'</span>)</span> -&gt; 'str':</span></span><br><span class="line">    index = bisect.bisect(letters, target)</span><br><span class="line">    <span class="keyword">return</span> letters[index % len(letters)]</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="852-Peak-Index-in-a-Mountain-Array"><a href="#852-Peak-Index-in-a-Mountain-Array" class="headerlink" title="852. Peak Index in a Mountain Array"></a>852. Peak Index in a Mountain Array</h3><p>找到数组中的峰值。假设峰值一定存在。<br><a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,2,1,0]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：线性枚举O(n)。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">peakIndexInMountainArray</span><span class="params">(self, A: <span class="string">'List[int]'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(A)<span class="number">-1</span>):</span><br><span class="line">        <span class="keyword">if</span> A[i] &gt; A[i+<span class="number">1</span>]:</span><br><span class="line">            <span class="keyword">return</span> i</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：max函数</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">peakIndexInMountainArray</span><span class="params">(self, A: <span class="string">'List[int]'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    <span class="keyword">return</span> A.index(max(A))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法三：二分法</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">peakIndexInMountainArray</span><span class="params">(self, A: <span class="string">'List[int]'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    lo, hi = <span class="number">0</span>, len(A)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> lo &lt; hi:</span><br><span class="line">        mid = (lo + hi) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> A[mid] &gt; A[mid+<span class="number">1</span>]:</span><br><span class="line">            hi = mid</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            lo = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> lo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法四：黄金分割法，应用在单峰函数求极值，速度比二分法要快。</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">peakIndexInMountainArray</span><span class="params">(self, A: <span class="string">'List[int]'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gold1</span><span class="params">(i, j)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> i + int(round((j-i) * <span class="number">0.382</span>))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gold2</span><span class="params">(i, j)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> i + int(round((j-i) * <span class="number">0.618</span>))</span><br><span class="line">    </span><br><span class="line">    l, r = <span class="number">0</span>, len(A) - <span class="number">1</span></span><br><span class="line">    x1, x2 = gold1(l, r), gold2(l, r)</span><br><span class="line">    <span class="keyword">while</span> x1 &lt; x2:</span><br><span class="line">        <span class="keyword">if</span> A[x1] &lt; A[x2]:</span><br><span class="line">            l = x1</span><br><span class="line">            x1 = x2</span><br><span class="line">            x2 = gold1(x1, r)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            r = x2</span><br><span class="line">            x2 = x1</span><br><span class="line">            x1 = gold2(l, x2)</span><br><span class="line">    <span class="keyword">return</span> x1</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="1014-Capacity-To-Ship-Packages-Within-D-Days"><a href="#1014-Capacity-To-Ship-Packages-Within-D-Days" class="headerlink" title="1014. Capacity To Ship Packages Within D Days"></a>1014. Capacity To Ship Packages Within D Days</h3><p>n天内轮船运送的最小容量<br><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Input: weights &#x3D; [1,2,3,4,5,6,7,8,9,10], D &#x3D; 5</span><br><span class="line">Output: 15</span><br><span class="line">Explanation: </span><br><span class="line">A ship capacity of 15 is the minimum to ship all the packages in 5 days like this:</span><br><span class="line">1st day: 1, 2, 3, 4, 5</span><br><span class="line">2nd day: 6, 7</span><br><span class="line">3rd day: 8</span><br><span class="line">4th day: 9</span><br><span class="line">5th day: 10</span><br><span class="line"></span><br><span class="line">Note that the cargo must be shipped in the order given, so using a ship of capacity 14 and splitting the packages into parts like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>二分结果快速出解</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shipWithinDays</span><span class="params">(self, weights: List[int], D: int)</span> -&gt; int:</span></span><br><span class="line">    lo, hi = max(weights), sum(weights)</span><br><span class="line">    <span class="keyword">while</span> lo &lt;= hi:</span><br><span class="line">        mid, days, cur = (lo + hi) // <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> weights:</span><br><span class="line">            <span class="keyword">if</span> cur+w &gt; mid:</span><br><span class="line">                days += <span class="number">1</span></span><br><span class="line">                cur = <span class="number">0</span></span><br><span class="line">            cur += w</span><br><span class="line">        <span class="keyword">if</span> days &gt; D:</span><br><span class="line">            lo = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            hi = mid - <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(lo, mid, hi)</span></span><br><span class="line">    <span class="keyword">return</span> lo</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="875-Koko-Eating-Bananas"><a href="#875-Koko-Eating-Bananas" class="headerlink" title="875. Koko Eating Bananas"></a>875. Koko Eating Bananas</h3><p>这道题思路和1014一样。不同的是，如果当前堆的香蕉小于吃的速度，那么也不能吃下一堆。<br><a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: piles &#x3D; [3,6,7,11], H &#x3D; 8</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>二分结果快速出解</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minEatingSpeed</span><span class="params">(self, piles: List[int], H: int)</span> -&gt; int:</span></span><br><span class="line">    lo, hi = <span class="number">1</span>, max(piles) </span><br><span class="line">    <span class="keyword">while</span> lo &lt;= hi:</span><br><span class="line">        mid = (lo + hi ) &gt;&gt; <span class="number">1</span></span><br><span class="line">        <span class="comment"># needs = sum(math.ceil(p/mid) for p in piles)   # slower</span></span><br><span class="line">        needs = sum((p<span class="number">-1</span>)//mid+<span class="number">1</span> <span class="keyword">for</span> p <span class="keyword">in</span> piles)</span><br><span class="line">        <span class="keyword">if</span> needs &gt; H:</span><br><span class="line">            lo = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            hi = mid - <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> lo</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1145-Binary-Tree-Coloring-Game"><a href="#1145-Binary-Tree-Coloring-Game" class="headerlink" title="1145. Binary Tree Coloring Game"></a>1145. Binary Tree Coloring Game</h3><p>二叉树染色游戏。两个人轮流给二叉树染色，每次只能染相邻位的节点，给定第一个人染色的位置，问第二个人是否能够必胜。<br><a href="https://leetcode.com/problems/binary-tree-coloring-game/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: piles &#x3D; [3,6,7,11], H &#x3D; 8</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>关键的一点需要想明白，从第一个人染色的地方，有三个分支，如果有一个分支可以大于整个节点的一半，那么第二个人选择这个分支，就能赢得比赛</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">btreeGameWinningMove</span><span class="params">(self, root: TreeNode, n: int, x: int)</span> -&gt; bool:</span></span><br><span class="line">    count = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(node)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        left = dfs(node.left)</span><br><span class="line">        right = dfs(node.right)</span><br><span class="line">        <span class="keyword">if</span> node.val == x:</span><br><span class="line">            count[<span class="number">0</span>] = left</span><br><span class="line">            count[<span class="number">1</span>] = right</span><br><span class="line">        <span class="keyword">return</span> left + right + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    dfs(root)</span><br><span class="line">    <span class="keyword">return</span> max(max(count), n - sum(count) - <span class="number">1</span>) &gt; n // <span class="number">2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/10/07/linked-list/" rel="prev" title="Linked List(链表)">
+      <i class="fa fa-chevron-left"></i> Linked List(链表)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/10/08/binary-tree/" rel="next" title="Binary Tree(二分法)">
+      Binary Tree(二分法) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于二分法"><span class="nav-number">1.</span> <span class="nav-text">关于二分法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用核心"><span class="nav-number">2.</span> <span class="nav-text">使用核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#技巧"><span class="nav-number">3.</span> <span class="nav-text">技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LeetCode真题"><span class="nav-number">4.</span> <span class="nav-text">LeetCode真题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#704-Binary-Search"><span class="nav-number">4.1.</span> <span class="nav-text">704. Binary Search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-Search-Insert-Position"><span class="nav-number">4.2.</span> <span class="nav-text">35. Search Insert Position</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#153-Find-Minimum-in-Rotated-Sorted-Array"><span class="nav-number">4.3.</span> <span class="nav-text">153. Find Minimum in Rotated Sorted Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-Find-First-and-Last-Position-of-Element-in-Sorted-Array"><span class="nav-number">4.4.</span> <span class="nav-text">34. Find First and Last Position of Element in Sorted Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#278-First-Bad-Version"><span class="nav-number">4.5.</span> <span class="nav-text">278. First Bad Version</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#374-Guess-Number-Higher-or-Lower"><span class="nav-number">4.6.</span> <span class="nav-text">374. Guess Number Higher or Lower</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#744-Find-Smallest-Letter-Greater-Than-Target"><span class="nav-number">4.7.</span> <span class="nav-text">744. Find Smallest Letter Greater Than Target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#852-Peak-Index-in-a-Mountain-Array"><span class="nav-number">4.8.</span> <span class="nav-text">852. Peak Index in a Mountain Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1014-Capacity-To-Ship-Packages-Within-D-Days"><span class="nav-number">4.9.</span> <span class="nav-text">1014. Capacity To Ship Packages Within D Days</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#875-Koko-Eating-Bananas"><span class="nav-number">4.10.</span> <span class="nav-text">875. Koko Eating Bananas</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1145-Binary-Tree-Coloring-Game"><span class="nav-number">4.11.</span> <span class="nav-text">1145. Binary Tree Coloring Game</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Wade</p>
+  <div class="site-description" itemprop="description">一切都会好的，城南的花都开了。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wade</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
