@@ -1,6 +1,464 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Math(数学)</title>
+    <url>/2016/10/18/math/</url>
+    <content><![CDATA[<blockquote>
+<p>Math is the base.</p>
+</blockquote>
+<h2 id="LeetCode真题"><a href="#LeetCode真题" class="headerlink" title="LeetCode真题"></a>LeetCode真题</h2><h3 id="7-Reverse-Integer"><a href="#7-Reverse-Integer" class="headerlink" title="7. Reverse Integer"></a>7. Reverse Integer</h3><p>倒置一个整数， 此答案忽略了原题中的范围判断。<br><a href="https://leetcode.com/problems/reverse-integer/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: -123</span><br><span class="line">Output: -321</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：str</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverse_int</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x &gt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> int(str(x)[::<span class="number">-1</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> -int(str(x)[:<span class="number">0</span>:<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：math</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverse</span><span class="params">(self, x: int)</span> -&gt; int:</span></span><br><span class="line">    sign = <span class="number">1</span> <span class="keyword">if</span> x &gt;= <span class="number">0</span> <span class="keyword">else</span> <span class="number">-1</span></span><br><span class="line">    ans, tail = <span class="number">0</span>, abs(x)</span><br><span class="line">    <span class="keyword">while</span> tail:</span><br><span class="line">        ans = ans*<span class="number">10</span> + tail%<span class="number">10</span></span><br><span class="line">        tail //= <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> ans * sign <span class="keyword">if</span> ans &lt; <span class="number">2</span>**<span class="number">31</span> <span class="keyword">else</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="9-Palindrome-Number"><a href="#9-Palindrome-Number" class="headerlink" title="9. Palindrome Number"></a>9. Palindrome Number</h3><p>判断一个数是否是回文数，这里把负数认为是不符合条件的。<br><a href="https://leetcode.com/problems/palindrome-number/description/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>方法一：str</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_palindrome</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> str(x) == str(x)[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：math</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_palindrome</span><span class="params">(x)</span>:</span></span><br><span class="line">    l, r = x, <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> l &gt; <span class="number">0</span>:</span><br><span class="line">        r = r*<span class="number">10</span> + l%<span class="number">10</span></span><br><span class="line">        l //= <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> r == x</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="13-Roman-to-Integer"><a href="#13-Roman-to-Integer" class="headerlink" title="13. Roman to Integer"></a>13. Roman to Integer</h3><p>罗马数字转换整型。<br><a href="https://leetcode.com/problems/roman-to-integer/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [3,4,5,1,2] </span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">roman_to_int</span><span class="params">(s)</span>:</span></span><br><span class="line">    roman = &#123;<span class="string">'I'</span>: <span class="number">1</span>, <span class="string">'V'</span>: <span class="number">5</span>, <span class="string">'X'</span>: <span class="number">10</span>, <span class="string">'L'</span>: <span class="number">50</span>, </span><br><span class="line">             <span class="string">'C'</span>: <span class="number">100</span>, <span class="string">'D'</span>: <span class="number">500</span>, <span class="string">'M'</span>: <span class="number">1000</span>&#125;</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">        <span class="keyword">if</span> i == len(s)<span class="number">-1</span> <span class="keyword">or</span> roman[s[i]] &gt;= roman[s[i+<span class="number">1</span>]]</span><br><span class="line">            total += roman[s[i]]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            total -= roman[s[i]]</span><br><span class="line">    <span class="keyword">return</span> total</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="69-Sqrt-x"><a href="#69-Sqrt-x" class="headerlink" title="69. Sqrt(x)"></a>69. Sqrt(x)</h3><p>实现开方，返回整数部分。<br><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 8</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: The square root of 8 is 2.82842..., and since </span><br><span class="line">             the decimal part is truncated, 2 is returned.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>牛顿迭代法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_sqrt</span><span class="params">(x)</span>:</span></span><br><span class="line">    r = x</span><br><span class="line">    <span class="keyword">while</span> r**<span class="number">2</span> &gt; x:</span><br><span class="line">        r = (r+x//r) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> r</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="367-Valid-Perfect-Square"><a href="#367-Valid-Perfect-Square" class="headerlink" title="367. Valid Perfect Square"></a>367. Valid Perfect Square</h3><p>判断一个数是不是某个数的平方。<br><a href="https://leetcode.com/problems/valid-perfect-square/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：牛顿迭代法。同69。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPerfectSquare</span><span class="params">(self, num)</span>:</span></span><br><span class="line">    r = num</span><br><span class="line">    <span class="keyword">while</span> r**<span class="number">2</span> &gt; num:</span><br><span class="line">        r = (r + num // r) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> r**<span class="number">2</span> == num</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="171-Excel-Sheet-Column-Number"><a href="#171-Excel-Sheet-Column-Number" class="headerlink" title="171. Excel Sheet Column Number"></a>171. Excel Sheet Column Number</h3><p>excel表格列表数字转换，二十六进制。<br><a href="https://leetcode.com/problems/excel-sheet-column-number/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A -&gt; 1</span><br><span class="line">B -&gt; 2</span><br><span class="line">C -&gt; 3</span><br><span class="line">...</span><br><span class="line">Z -&gt; 26</span><br><span class="line">AA -&gt; 27</span><br><span class="line">AB -&gt; 28     A -&gt; 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">titleToNumber</span><span class="params">(self, s: str)</span> -&gt; int:</span></span><br><span class="line">    OFFSET = ord(<span class="string">'A'</span>)<span class="number">-1</span></span><br><span class="line">    <span class="keyword">return</span> sum((ord(x)-OFFSET)*<span class="number">26</span>**i <span class="keyword">for</span> i, x <span class="keyword">in</span> enumerate(s[::<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="168-Excel-Sheet-Column-Title"><a href="#168-Excel-Sheet-Column-Title" class="headerlink" title="168. Excel Sheet Column Title"></a>168. Excel Sheet Column Title</h3><p>excel转换，数字转字母。十进制-&gt;26进制。<br><a href="https://leetcode.com/problems/excel-sheet-column-title" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;d&quot;</span><br><span class="line">Output: &quot;f&quot;</span><br><span class="line"></span><br><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;g&quot;</span><br><span class="line">Output: &quot;j&quot;</span><br><span class="line"></span><br><span class="line">Input:</span><br><span class="line">letters &#x3D; [&quot;c&quot;, &quot;f&quot;, &quot;j&quot;]</span><br><span class="line">target &#x3D; &quot;j&quot;</span><br><span class="line">Output: &quot;c&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertToTitle</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    res = <span class="string">''</span></span><br><span class="line">    <span class="keyword">while</span> n:</span><br><span class="line">        res = chr((n<span class="number">-1</span>)%<span class="number">26</span>+<span class="number">65</span>) + res</span><br><span class="line">        <span class="comment"># n //= 26</span></span><br><span class="line">        n = (n<span class="number">-1</span>) // <span class="number">26</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="172-Factorial-Trailing-Zeroes"><a href="#172-Factorial-Trailing-Zeroes" class="headerlink" title="172. Factorial Trailing Zeroes"></a>172. Factorial Trailing Zeroes</h3><p>求n的阶乘末尾有几个0。<br><a href="https://leetcode.com/problems/factorial-trailing-zeroes/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 5</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: 5! &#x3D; 120, one trailing zero.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>思路：每一对2和5可以产生一个0，在n的阶乘中，5比2多，所以问题变成求5的个数，而25这种数有两个5，所以递归求解</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trailing_zeroes</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span> <span class="keyword">if</span> n == <span class="number">0</span> <span class="keyword">else</span> n//<span class="number">5</span> + trailing_zeroes(n//<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="204-Count-Primes"><a href="#204-Count-Primes" class="headerlink" title="204. Count Primes"></a>204. Count Primes</h3><p>求小于n的整数中，有多少个质数。<br><a href="https://leetcode.com/problems/count-primes/description/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countPrimes</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    is_prime = [<span class="literal">False</span>]*<span class="number">2</span> + [<span class="literal">True</span>]*(n<span class="number">-2</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, int(n ** <span class="number">0.5</span>)+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">            is_prime[i*i:n:i] = [<span class="literal">False</span>] * len(is_prime[i*i:n:i])</span><br><span class="line">    <span class="keyword">return</span> sum(is_prime)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="50-Pow-x-n"><a href="#50-Pow-x-n" class="headerlink" title="50. Pow(x, n)"></a>50. Pow(x, n)</h3><p>实现pow函数。<br><a href="https://leetcode.com/problems/powx-n/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 2.00000, 10</span><br><span class="line">Output: 1024.00000</span><br><span class="line"></span><br><span class="line">Input: 2.00000, -2</span><br><span class="line">Output: 0.25000 .</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>说明：常规方法在Leetcode 上内存会爆掉。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">myPow</span><span class="params">(self, x, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span> / self.pow_with_unsigned(x, -n)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.pow_with_unsigned(x, n)</span><br><span class="line">              </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pow_with_unsigned</span><span class="params">(self, x, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> x</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        res = self.pow_with_unsigned(x, n &gt;&gt; <span class="number">1</span>)</span><br><span class="line">        res *= res</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> n &amp; <span class="number">1</span> == <span class="number">1</span>:</span><br><span class="line">            res *= x</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="233-Number-of-Digit-One"><a href="#233-Number-of-Digit-One" class="headerlink" title="233. Number of Digit One"></a>233. Number of Digit One</h3><p>1~n数字中1的个数。<br><a href="https://leetcode.com/problems/number-of-digit-one/description/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countDigitOne</span><span class="params">(self, n)</span>:</span>    </span><br><span class="line">    countr, i = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &lt;= n:</span><br><span class="line">        divider = i * <span class="number">10</span></span><br><span class="line">        countr += (n // divider) * i + min(max(n % divider - i + <span class="number">1</span>, <span class="number">0</span>), i)</span><br><span class="line">        i *= <span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> countr</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="263-Ugly-Number"><a href="#263-Ugly-Number" class="headerlink" title="263. Ugly Number"></a>263. Ugly Number</h3><p>判断一个数是否是丑数。<br><a href="https://leetcode.com/problems/ugly-number-ii/description/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>根据定义实现。&lt; num是为了判断num=0的情况。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isUgly</span><span class="params">(self, num)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">while</span> num % f == <span class="number">0</span> &lt; num:</span><br><span class="line">            num //= f</span><br><span class="line">    <span class="keyword">return</span> num == <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="264-Ugly-Number-II"><a href="#264-Ugly-Number-II" class="headerlink" title="264. Ugly Number II"></a>264. Ugly Number II</h3><p>输出第n个丑数。<br><a href="https://leetcode.com/problems/ugly-number-ii/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nthUglyNumber</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    q = [<span class="number">1</span>]</span><br><span class="line">    t2, t3, t5 = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>):</span><br><span class="line">        a2, a3, a5 = q[t2]*<span class="number">2</span>, q[t3]*<span class="number">3</span>, q[t5]*<span class="number">5</span></span><br><span class="line">        to_add = min(a2, a3, a5)</span><br><span class="line">        q.append(to_add)</span><br><span class="line">        <span class="keyword">if</span> a2 == to_add:</span><br><span class="line">            t2 += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> a3 == to_add:</span><br><span class="line">            t3 += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> a5 == to_add:</span><br><span class="line">            t5 += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> q[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="67-Add-Binary"><a href="#67-Add-Binary" class="headerlink" title="67.Add Binary"></a>67.Add Binary</h3><p>实现二进制加法。<br><a href="https://leetcode.com/problems/add-binary/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: a &#x3D; &quot;11&quot;, b &#x3D; &quot;1&quot;</span><br><span class="line">Output: &quot;100&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：按照加法的二进制思想来计算，不过Runtime大约100ms。后来试着将list comprehension拆成一个for循环，也并没有提高速度。居然beats只有4%，难道大部分人都用的bin。讨论区简单翻了了一下，没有找到一个高效的pythonic的方法。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addBinary</span><span class="params">(self, a, b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(a) &gt; len(b):</span><br><span class="line">        b = b.zfill(len(a))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        a = a.zfill(len(b))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> int(b):</span><br><span class="line">        sum_not_carry = <span class="string">''</span>.join([str(int(a[i]) ^ int(b[i])) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a))])</span><br><span class="line">        carry = <span class="string">''</span>.join([str(int(a[i]) &amp; int(b[i])) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a))])</span><br><span class="line">        a, b = <span class="string">"0"</span>+sum_not_carry, carry+<span class="string">'0'</span></span><br><span class="line">    <span class="keyword">return</span> a.lstrip(<span class="string">'0'</span>) <span class="keyword">if</span> a != <span class="string">'0'</span> <span class="keyword">else</span> <span class="string">'0'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="202-Happy-Number"><a href="#202-Happy-Number" class="headerlink" title="202. Happy Number"></a>202. Happy Number</h3><p>判断是否是欢乐数。进行所有位的平方和运算，最后为1的是欢乐数。<br><a href="https://leetcode.com/problems/happy-number/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">1**2 + 9**2 &#x3D; 82</span><br><span class="line">8**2 + 2**2 &#x3D; 68</span><br><span class="line">6**2 + 8**2 &#x3D; 100</span><br><span class="line">1**2 + 0**2 + 0**2 &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>思路，使用一个字典映射0~9的平方值，然后如果死循环的话，各位数的和一定存在着一种循环，所以用一个set来判断是否重复。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isHappy</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    squares = &#123;str(k): k**<span class="number">2</span> <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)&#125;</span><br><span class="line">    sum_digit = set()</span><br><span class="line">    <span class="keyword">while</span> n != <span class="number">1</span>:</span><br><span class="line">        n = sum(squares[digit] <span class="keyword">for</span> digit <span class="keyword">in</span> str(n))</span><br><span class="line">        <span class="keyword">if</span> n <span class="keyword">in</span> sum_digit:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            sum_digit.add(n)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="231-Power-of-Two"><a href="#231-Power-of-Two" class="headerlink" title="231. Power of Two"></a>231. Power of Two</h3><p>判断一个数是否是2的n次方。思路也就是判断这个数的二进制形式是否只有一个’1’。<br><a href="https://leetcode.com/problems/power-of-two" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>方法一：二进制统计1。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span> <span class="keyword">and</span> bin(n).count(<span class="string">'1'</span>) == <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法三：如果一个数n的二进制只有一个1，那么n&amp;(n-1)一定为0。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span> <span class="keyword">and</span> (n&amp;n<span class="number">-1</span>) == <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="342-Power-of-Four"><a href="#342-Power-of-Four" class="headerlink" title="342. Power of Four"></a>342. Power of Four</h3><p>判断一个数是否是4的n次方。<br><a href="https://leetcode.com/problems/power-of-four/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>方法一：从简单入手通过231题，了解到了2的n次方特点是，二进制形式只有一个’1’，那么4的n次方就是不但只有一个’1’，后面还跟了偶数个’0’。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPowerOfFour</span><span class="params">(self, num)</span>:</span></span><br><span class="line">    <span class="comment"># return num &gt; 0 and (num &amp; num-1)==0 and bin(num)[2:].count('0')&amp;1==0</span></span><br><span class="line">    <span class="keyword">return</span> num &gt; <span class="number">0</span> <span class="keyword">and</span> (num &amp; num<span class="number">-1</span>)==<span class="number">0</span> <span class="keyword">and</span> len(bin(num))&amp;<span class="number">1</span>==<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法三：也可以使用正则。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isPowerOfFour</span><span class="params">(self, num)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> re</span><br><span class="line">    <span class="keyword">return</span> bool(re.match(<span class="string">r'^0b1(00)*$'</span>,bin(num)))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="292-Nim-Game"><a href="#292-Nim-Game" class="headerlink" title="292. Nim Game"></a>292. Nim Game</h3><p>说，有这么一堆石头，一次只能拿1~3个，拿到最后一个石头的人获胜。求n堆石头，你先拿是否可以获胜。<br><a href="https://leetcode.com/problems/nim-game/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>思路：找规律，发现只有最后剩4个石头的时候，此时轮到谁，谁输。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canWinNim</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">4</span> != <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="400-Nth-Digit"><a href="#400-Nth-Digit" class="headerlink" title="400. Nth Digit"></a>400. Nth Digit</h3><p>找出无限整数序列中的第n个数字。<br><a href="https://leetcode.com/problems/nth-digit/description/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input:</span><br><span class="line">11</span><br><span class="line">Output:</span><br><span class="line">0</span><br><span class="line">Explanation:</span><br><span class="line">The 11th digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... is a 0, which is part of the number 10.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>思路，根据n的位数，将无限序列分为几个范围。</p>
+<ol>
+<li><p>寻找范围。寻找n处于哪个范围，是1<del>9，还是10</del>99，例如n=15。则需要跳过1<del>9的范围，而这个范围有size*step个数字，所以问题变成在10</del>99范围上寻找第15-1*9=6个数。</p>
+</li>
+<li><p>定位数字。10~99范围中是从10开始的，每一个数都有两位数字，所以最终数字为10+(6-1)//2，因为索引从0开始，所以需要-1。</p>
+</li>
+<li><p>定位数字的位。上一步找到了数字为12，对size求余就可以知道，’12’[(6-1)%2]=’2’。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findNthDigit</span><span class="params">(self, n)</span>:</span></span><br><span class="line">    start, step, size = <span class="number">1</span>, <span class="number">9</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; size * step:</span><br><span class="line">        n, start, step, size = n-size*step, start*<span class="number">10</span>, step*<span class="number">10</span>, size+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> int(str(start + (n<span class="number">-1</span>)//size)[(n<span class="number">-1</span>) % size])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="415-Add-Stings"><a href="#415-Add-Stings" class="headerlink" title="415. Add Stings"></a>415. Add Stings</h3><p>给定两个字符串表示的数字，把它们相加，这两个数的长度小于5100，不能使用任何BitIntegr库或是直接将其转换为整数。ps: 题中要求不将输入直接转换成int，所以我个人认为int还是可以使用的，有一些答案中是使用了ord来做运算。<br><a href="https://leetcode.com/problems/add-strings/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>使用zip_longest。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addStrings</span><span class="params">(self, num1, num2)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> itertools <span class="keyword">import</span> zip_longest</span><br><span class="line">    nums = list(zip_longest(num1[::<span class="number">-1</span>], num2[::<span class="number">-1</span>], fillvalue=<span class="string">'0'</span>))</span><br><span class="line">    carry, res = <span class="number">0</span>, <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> digits <span class="keyword">in</span> nums:</span><br><span class="line">        d1, d2 = map(int, digits)</span><br><span class="line">        carry, val = divmod(d1+d2+carry, <span class="number">10</span>)</span><br><span class="line">        res = res + str(val)</span><br><span class="line">    res = res <span class="keyword">if</span> carry==<span class="number">0</span> <span class="keyword">else</span> res+str(carry)        </span><br><span class="line">    <span class="keyword">return</span> res[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="492-Construct-the-Rectangle"><a href="#492-Construct-the-Rectangle" class="headerlink" title="492. Construct the Rectangle"></a>492. Construct the Rectangle</h3><p>给定一个面积，求组成这个面积的长高差最小。<br><a href="https://leetcode.com/problems/construct-the-rectangle/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 4</span><br><span class="line">Output: [2, 2]</span><br><span class="line">Explanation: The target area is 4, and all the possible ways to construct it are [1,4], [2,2], [4,1]. </span><br><span class="line">But according to requirement 2, [1,4] is illegal; according to requirement 3,  [4,1] is not optimal compared to [2,2]. So the length L is 2, and the width W is 2.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">constructRectangle</span><span class="params">(self, area)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> math</span><br><span class="line">    w = int(math.sqrt(area))</span><br><span class="line">    <span class="keyword">while</span> area % w != <span class="number">0</span>:</span><br><span class="line">        w -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> [area//w, w]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="504-Base-7"><a href="#504-Base-7" class="headerlink" title="504. Base 7"></a>504. Base 7</h3><p>10进制转7进制。<br><a href="https://leetcode.com/problems/base-7/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 100</span><br><span class="line">Output: &quot;202&quot;</span><br><span class="line">Input: -7</span><br><span class="line">Output: &quot;-10&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>需要注意负数。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertToBase7</span><span class="params">(self, num: int)</span> -&gt; str:</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">0</span>: <span class="keyword">return</span> <span class="string">'0'</span></span><br><span class="line">    n, ans = abs(num), <span class="string">''</span></span><br><span class="line">    <span class="keyword">while</span> n:</span><br><span class="line">        n, val = divmod(n, <span class="number">7</span>)</span><br><span class="line">        ans = str(val) + ans</span><br><span class="line">    <span class="keyword">return</span> ans <span class="keyword">if</span> num &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="string">'-'</span>+ans</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="970-Powerful-Integers"><a href="#970-Powerful-Integers" class="headerlink" title="970. Powerful Integers"></a>970. Powerful Integers</h3><p>求满足x^i+y^j &lt;= bound的所有和。<br><a href="https://leetcode.com/contest/weekly-contest-118/problems/powerful-integers/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: x &#x3D; 2, y &#x3D; 3, bound &#x3D; 10</span><br><span class="line">Output: [2,3,4,5,7,9,10]</span><br><span class="line">Explanation: </span><br><span class="line">2 &#x3D; 2^0 + 3^0</span><br><span class="line">3 &#x3D; 2^1 + 3^0</span><br><span class="line">4 &#x3D; 2^0 + 3^1</span><br><span class="line">5 &#x3D; 2^1 + 3^1</span><br><span class="line">7 &#x3D; 2^2 + 3^1</span><br><span class="line">9 &#x3D; 2^3 + 3^0</span><br><span class="line">10 &#x3D; 2^0 + 3^2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这题难得地方在于两个循环的临界值，貌似我这样写也不是最优解，原题的Solution中给定了2**18&gt;bound的最大值。所以两个范围都是18。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">powerfulIntegers</span><span class="params">(self, x, y, bound)</span>:</span></span><br><span class="line">    res = set()</span><br><span class="line">    imax = self.get_max(x, bound) + <span class="number">1</span></span><br><span class="line">    jmax = self.get_max(y, bound) + <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(imax):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(jmax):</span><br><span class="line">            <span class="keyword">if</span> x**i + y**j &lt;= bound:</span><br><span class="line">                res.add(x**i+y**j)</span><br><span class="line">    <span class="keyword">return</span> list(res)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_max</span><span class="params">(self, n, bound)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(bound//n + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> n ** i &gt;= bound:</span><br><span class="line">                <span class="keyword">return</span> i</span><br><span class="line">        <span class="keyword">return</span> bound//n + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="973-K-Closest-Points-to-Origin"><a href="#973-K-Closest-Points-to-Origin" class="headerlink" title="973. K Closest Points to Origin"></a>973. K Closest Points to Origin</h3><p>求离原点最近的K个坐标点。<br><a href="https://leetcode.com/contest/weekly-contest-119/problems/k-closest-points-to-origin/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: points &#x3D; [[1,3],[-2,2]], K &#x3D; 1</span><br><span class="line">Output: [[-2,2]]</span><br><span class="line">Explanation: </span><br><span class="line">The distance between (1, 3) and the origin is sqrt(10).</span><br><span class="line">The distance between (-2, 2) and the origin is sqrt(8).</span><br><span class="line">Since sqrt(8) &lt; sqrt(10), (-2, 2) is closer to the origin.</span><br><span class="line">We only want the closest K &#x3D; 1 points from the origin, so the answer is just [[-2,2]].</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>easy</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kClosest</span><span class="params">(self, points, K)</span>:</span></span><br><span class="line">    res = sorted(points, key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>]**<span class="number">2</span> + x[<span class="number">1</span>]**<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> res[:K]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="976-Largest-Perimeter-Triangle"><a href="#976-Largest-Perimeter-Triangle" class="headerlink" title="976. Largest Perimeter Triangle"></a>976. Largest Perimeter Triangle</h3><p>给定一个边长数组，求能组成的三角形的最长周长。<br><a href="https://leetcode.com/contest/weekly-contest-119/problems/largest-perimeter-triangle/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>就是长度为3的滑动窗口。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">largestPerimeter</span><span class="params">(self, A)</span>:</span></span><br><span class="line">    res = sorted(A, reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(res)<span class="number">-2</span>):</span><br><span class="line">        <span class="keyword">if</span> sum(res[i+<span class="number">1</span>:i+<span class="number">3</span>]) &gt; res[i]:</span><br><span class="line">            <span class="keyword">return</span> sum(res[i:i+<span class="number">3</span>])</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="628-Maximum-Product-of-Three-Numbers"><a href="#628-Maximum-Product-of-Three-Numbers" class="headerlink" title="628. Maximum Product of Three Numbers"></a>628. Maximum Product of Three Numbers</h3><p>数组中三个数的最大乘积。元素范围[-1000, 1000]。<br><a href="https://leetcode.com/problems/maximum-product-of-three-numbers/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4]</span><br><span class="line">Output: 24</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：排序。在正数个数大于等于3的时候，显然最大的三个数就可以产生最大的乘积。而当正数个数不够的时候，那么必须需要两个最小的负数（即绝对值最大），和一个最大的正数。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maximumProduct</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">    ary = sorted(nums)</span><br><span class="line">    <span class="keyword">return</span> max((ary[<span class="number">0</span>]*ary[<span class="number">1</span>]*ary[<span class="number">-1</span>], ary[<span class="number">-3</span>]*ary[<span class="number">-2</span>]*ary[<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：使用heapq.</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maximumProduct</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> heapq</span><br><span class="line">    <span class="keyword">from</span> operator <span class="keyword">import</span> mul</span><br><span class="line">    <span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line">    three_max = heapq.nlargest(<span class="number">3</span>, nums)</span><br><span class="line">    two_min = heapq.nsmallest(<span class="number">2</span>, nums)</span><br><span class="line">    <span class="keyword">return</span> max(reduce(mul, three_max), reduce(mul, two_min + three_max[:<span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="728-Self-Dividing-Numbers"><a href="#728-Self-Dividing-Numbers" class="headerlink" title="728. Self Dividing Numbers"></a>728. Self Dividing Numbers</h3><p>自整除数字，一个数字能够被本身的每个数字整除，并且不能有0，求某个范围内所有的数。<br><a href="https://leetcode.com/problems/self-dividing-numbers/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: </span><br><span class="line">left &#x3D; 1, right &#x3D; 22</span><br><span class="line">Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Brute Force. 此题强行使用列表生成式没有意义。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selfDividingNumbers</span><span class="params">(self, left, right)</span>:</span></span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(left, right+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> str(i):</span><br><span class="line">            <span class="keyword">if</span> int(char)==<span class="number">0</span> <span class="keyword">or</span> i % int(char)!=<span class="number">0</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res.append(i)</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="836-Rectangle-Overlap"><a href="#836-Rectangle-Overlap" class="headerlink" title="836. Rectangle Overlap"></a>836. Rectangle Overlap</h3><p>矩形是否重叠，矩形的边平行于坐标轴。<br><a href="https://leetcode.com/problems/rectangle-overlap/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: rec1 &#x3D; [0,0,2,2], rec2 &#x3D; [1,1,3,3]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isRectangleOverlap</span><span class="params">(self, rec1: <span class="string">'List[int]'</span>, rec2: <span class="string">'List[int]'</span>)</span> -&gt; 'bool':</span></span><br><span class="line">    <span class="keyword">return</span> rec2[<span class="number">0</span>] &lt; rec1[<span class="number">2</span>] <span class="keyword">and</span> rec1[<span class="number">0</span>] &lt; rec2[<span class="number">2</span>] <span class="keyword">and</span> \</span><br><span class="line">           rec2[<span class="number">1</span>] &lt; rec1[<span class="number">3</span>] <span class="keyword">and</span> rec1[<span class="number">1</span>] &lt; rec2[<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="991-Broken-Calculator"><a href="#991-Broken-Calculator" class="headerlink" title="991. Broken Calculator"></a>991. Broken Calculator</h3><p>坏掉的计算器，只能*2或者-1，使X变为Y。<br><a href="https://leetcode.com/problems/broken-calculator/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: X &#x3D; 5, Y &#x3D; 8</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: Use decrement and then double &#123;5 -&gt; 4 -&gt; 8&#125;.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果从X到Y问题会变得复杂，不确定什么时候该*2或者是-1。所以逆向思维从Y变成X。因为如果Y是奇数，那么必定在+1操作后要/2，这里将其合并。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">brokenCalc</span><span class="params">(self, X: <span class="string">'int'</span>, Y: <span class="string">'int'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    <span class="keyword">return</span> X - Y <span class="keyword">if</span> X &gt;= Y <span class="keyword">else</span> <span class="number">1</span>+(Y&amp;<span class="number">1</span>)+self.brokenCalc(X, (Y+<span class="number">1</span>)//<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="908-Smallest-Range-I"><a href="#908-Smallest-Range-I" class="headerlink" title="908. Smallest Range I"></a>908. Smallest Range I</h3><p>给定一个数组，和一个K，数组里的数加上-k&lt;=x&lt;=k的任意一个数字后，求数组最大数和最小数的，最小差。<br><a href="https://leetcode.com/problems/smallest-range-i/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: A &#x3D; [0,10], K &#x3D; 2</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: B &#x3D; [2,8]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smallestRangeI</span><span class="params">(self, A: <span class="string">'List[int]'</span>, K: <span class="string">'int'</span>)</span> -&gt; 'int':</span></span><br><span class="line">    <span class="keyword">return</span> max(max(A) - min(A) - <span class="number">2</span>*K, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="949-Largest-Time-for-Given-Digits"><a href="#949-Largest-Time-for-Given-Digits" class="headerlink" title="949. Largest Time for Given Digits"></a>949. Largest Time for Given Digits</h3><p>给定四个数字，返回能生成的最大时间。24小时制。<br><a href="https://leetcode.com/problems/largest-time-for-given-digits/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: [1,2,3,4]</span><br><span class="line">Output: &quot;23:41&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">largestTimeFromDigits</span><span class="params">(self, A: <span class="string">'List[int]'</span>)</span> -&gt; 'str':</span></span><br><span class="line">    p = itertools.permutations(A)</span><br><span class="line">    <span class="keyword">return</span> max([<span class="string">'&#123;&#125;&#123;&#125;:&#123;&#125;&#123;&#125;'</span>.format(*d) <span class="keyword">for</span> d <span class="keyword">in</span> p </span><br><span class="line">                <span class="keyword">if</span> d[:<span class="number">2</span>] &lt; (<span class="number">2</span>, <span class="number">4</span>) <span class="keyword">and</span> d[<span class="number">2</span>] &lt; <span class="number">6</span>] <span class="keyword">or</span> [<span class="string">''</span>])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="914-X-of-a-Kind-in-a-Deck-of-Cards"><a href="#914-X-of-a-Kind-in-a-Deck-of-Cards" class="headerlink" title="914. X of a Kind in a Deck of Cards"></a>914. X of a Kind in a Deck of Cards</h3><p>有这样一堆数字卡牌，问是否存在一个X&gt;=2，使得将同样数字的卡牌分为每X个一组，并且刚好所有的卡牌分完。<br><a href="https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>使用Counter来统计每个数字的个数，然后求这些数字的最大公约数是否大于等于2，这里思路卡了一下，因为没想到最大公约数可以通过reduce来计算，没考虑到是可以累积的。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hasGroupsSizeX</span><span class="params">(self, deck)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">    <span class="keyword">from</span> math <span class="keyword">import</span> gcd</span><br><span class="line">    <span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line">    <span class="keyword">return</span> reduce(gcd, Counter(deck).values()) &gt;= <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="470-Implement-Rand10-Using-Rand7"><a href="#470-Implement-Rand10-Using-Rand7" class="headerlink" title="470. Implement Rand10() Using Rand7()"></a>470. Implement Rand10() Using Rand7()</h3><p>使用rand7实现rand10<br><a href="https://leetcode.com/problems/implement-rand10-using-rand7/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 3</span><br><span class="line">Output: [8,1,10]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rand10</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        x = (rand7()<span class="number">-1</span>)*<span class="number">7</span> + rand7()<span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> x &lt; <span class="number">40</span>: </span><br><span class="line">            <span class="keyword">return</span> x%<span class="number">10</span> + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1006-Clumsy-Factorial"><a href="#1006-Clumsy-Factorial" class="headerlink" title="1006. Clumsy Factorial"></a>1006. Clumsy Factorial</h3><p>将一个阶乘的式子用*/+-替代，给出结果。<br><a href="https://leetcode.com/problems/clumsy-factorial/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 10</span><br><span class="line">Output: 12</span><br><span class="line">Explanation: 12 &#x3D; 10 * 9 &#x2F; 8 + 7 - 6 * 5 &#x2F; 4 + 3 - 2 * 1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clumsy</span><span class="params">(self, N: int)</span> -&gt; int:</span></span><br><span class="line">    op = itertools.cycle([<span class="string">'*'</span>, <span class="string">'//'</span>, <span class="string">'+'</span>, <span class="string">'-'</span>])</span><br><span class="line">    <span class="keyword">return</span> eval(<span class="string">''</span>.join(str(n)+next(op) <span class="keyword">if</span> n!=<span class="number">1</span> <span class="keyword">else</span> str(n) </span><br><span class="line">                        <span class="keyword">for</span> n <span class="keyword">in</span> range(N, <span class="number">0</span>, <span class="number">-1</span>)))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1022-Smallest-Integer-Divisible-by-K"><a href="#1022-Smallest-Integer-Divisible-by-K" class="headerlink" title="1022. Smallest Integer Divisible by K"></a>1022. Smallest Integer Divisible by K</h3><p>最小的由1组成的能被K整除。<br><a href="https://leetcode.com/problems/smallest-integer-divisible-by-k/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: 2</span><br><span class="line">Output: -1</span><br><span class="line">Explanation: There is no such positive integer N divisible by 2.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果有2或5的质因数，那么不能整除。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smallestRepunitDivByK</span><span class="params">(self, K: int)</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">if</span> K % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">or</span> K % <span class="number">5</span> == <span class="number">0</span>: <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">    r = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> N <span class="keyword">in</span> range(<span class="number">1</span>, K + <span class="number">1</span>):</span><br><span class="line">        r = (r * <span class="number">10</span> + <span class="number">1</span>) % K</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> r: <span class="keyword">return</span> N</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1028-Convert-to-Base-2"><a href="#1028-Convert-to-Base-2" class="headerlink" title="1028. Convert to Base -2"></a>1028. Convert to Base -2</h3><p>10进制转成-2进制。<br><a href="https://leetcode.com/problems/convert-to-base-2/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>在二进制上加一个负号。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">baseNeg2</span><span class="params">(self, N: int)</span> -&gt; str:</span></span><br><span class="line">    ans = []</span><br><span class="line">    <span class="keyword">while</span> N:</span><br><span class="line">        ans.append(N &amp; <span class="number">1</span>)</span><br><span class="line">        N = -(N &gt;&gt; <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join(map(str, ans[::<span class="number">-1</span>] <span class="keyword">or</span> [<span class="number">0</span>]))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="313-Super-Ugly-Number"><a href="#313-Super-Ugly-Number" class="headerlink" title="313. Super Ugly Number"></a>313. Super Ugly Number</h3><p>根据指定的质数序列，找出第n个超级丑数。<br><a href="https://leetcode.com/problems/super-ugly-number/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nthSuperUglyNumber</span><span class="params">(self, n: int, primes: List[int])</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">import</span> heapq <span class="keyword">as</span> hq</span><br><span class="line">    uglies = [<span class="number">1</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gen_ugly</span><span class="params">(prime)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> ugly <span class="keyword">in</span> uglies:</span><br><span class="line">            <span class="keyword">yield</span> ugly * prime</span><br><span class="line">            </span><br><span class="line">    merged = hq.merge(*map(gen_ugly, primes))</span><br><span class="line">    <span class="keyword">while</span> len(uglies) &lt; n:</span><br><span class="line">        ugly = next(merged)</span><br><span class="line">        <span class="keyword">if</span> ugly != uglies[<span class="number">-1</span>]:</span><br><span class="line">            uglies.append(ugly)</span><br><span class="line">    <span class="keyword">return</span> uglies[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="869-Reordered-Power-of-2"><a href="#869-Reordered-Power-of-2" class="headerlink" title="869. Reordered Power of 2"></a>869. Reordered Power of 2</h3><p>重新排列一个数字的各位数，判断是否能组成2的幂。<br><a href="https://leetcode.com/problems/reordered-power-of-2/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>2的幂是指数上升的，所以，在范围内的数一共也没有几个。那么使用Counter来判断是否能组成这个数。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reorderedPowerOf2</span><span class="params">(self, N: int)</span> -&gt; bool:</span></span><br><span class="line">    c = Counter(str(N))</span><br><span class="line">    <span class="keyword">return</span> any(c==Counter(str(<span class="number">1</span>&lt;&lt;i)) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">30</span>))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1025-Divisor-Game"><a href="#1025-Divisor-Game" class="headerlink" title="1025. Divisor Game"></a>1025. Divisor Game</h3><p>两个人做游戏，黑板上有个数N，每次找到一个0 &lt;x&lt;N的数，并且N能被x整除，然后替换这个N，直到找不出这样x，就输了。问给出这样一个数N，第一个人是否能赢。<br><a href="https://leetcode.com/problems/divisor-game/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>只要N为偶数就能赢</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">divisorGame</span><span class="params">(self, N: int)</span> -&gt; bool:</span></span><br><span class="line">    <span class="keyword">return</span> N &amp; <span class="number">1</span> == <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1037-Valid-Boomerang"><a href="#1037-Valid-Boomerang" class="headerlink" title="1037. Valid Boomerang"></a>1037. Valid Boomerang</h3><p>验证三个坐标点是否共线。<br><a href="https://leetcode.com/problems/valid-boomerang/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>需要注意的是，除数为0 的情况，所以这里改成了乘法。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isBoomerang</span><span class="params">(self, points: List[List[int]])</span> -&gt; bool:</span></span><br><span class="line">    <span class="keyword">return</span> (points[<span class="number">1</span>][<span class="number">1</span>]-points[<span class="number">0</span>][<span class="number">1</span>])*(points[<span class="number">2</span>][<span class="number">0</span>]-points[<span class="number">1</span>][<span class="number">0</span>]) != \</span><br><span class="line">           (points[<span class="number">2</span>][<span class="number">1</span>]-points[<span class="number">1</span>][<span class="number">1</span>])*(points[<span class="number">1</span>][<span class="number">0</span>]-points[<span class="number">0</span>][<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1041-Robot-Bounded-In-Circle"><a href="#1041-Robot-Bounded-In-Circle" class="headerlink" title="1041. Robot Bounded In Circle"></a>1041. Robot Bounded In Circle</h3><p>一个面向北的机器人进行三种操作，一种是前进，或者向左向右转。问一系列的操作中，无限循环时，机器人是否在绕圈。<br><a href="https://leetcode.com/problems/robot-bounded-in-circle/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>在一次之后，如果面向的不再是北，那么最后将会绕圈。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isRobotBounded</span><span class="params">(self, instructions: str)</span> -&gt; bool:</span></span><br><span class="line">    x, y, dx, dy = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> inst <span class="keyword">in</span> instructions:</span><br><span class="line">        <span class="keyword">if</span> inst == <span class="string">'G'</span>: x, y = x+dx, y+dy</span><br><span class="line">        <span class="keyword">elif</span> inst == <span class="string">'L'</span>: dx, dy = -dy, dx</span><br><span class="line">        <span class="keyword">elif</span> inst == <span class="string">'R'</span>: dx, dy = dy, -dx</span><br><span class="line">    <span class="keyword">return</span> (x == y == <span class="number">0</span>) <span class="keyword">or</span> (dx, dy) != (<span class="number">0</span>, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1137-N-th-Tribonacci-Number"><a href="#1137-N-th-Tribonacci-Number" class="headerlink" title="1137. N-th Tribonacci Number"></a>1137. N-th Tribonacci Number</h3><p>三个数的斐波那契数列。<br><a href="https://leetcode.com/problems/n-th-tribonacci-number/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 4</span><br><span class="line">Output: 4</span><br><span class="line">Explanation:</span><br><span class="line">T_3 &#x3D; 0 + 1 + 1 &#x3D; 2</span><br><span class="line">T_4 &#x3D; 1 + 1 + 2 &#x3D; 4</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tribonacci</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">    a, b, c = <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(n):</span><br><span class="line">        a, b, c = b, c, a+b+c</span><br><span class="line">    <span class="keyword">return</span> c</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1073-Adding-Two-Negabinary-Numbers"><a href="#1073-Adding-Two-Negabinary-Numbers" class="headerlink" title="1073. Adding Two Negabinary Numbers"></a>1073. Adding Two Negabinary Numbers</h3><p>两个-2进制的数相加。<br><a href="https://leetcode.com/problems/adding-two-negabinary-numbers/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>转成十进制相加，再转回-2进制。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addNegabinary</span><span class="params">(self, arr1: List[int], arr2: List[int])</span> -&gt; List[int]:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_ten</span><span class="params">(arr)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> sum(d*(<span class="number">-2</span>)**i <span class="keyword">for</span> i, d <span class="keyword">in</span> enumerate(arr[::<span class="number">-1</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_neg_binary</span><span class="params">(n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> n:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'0'</span></span><br><span class="line">        ans = <span class="string">''</span></span><br><span class="line">        <span class="keyword">while</span> n:</span><br><span class="line">            remainder = n % (<span class="number">-2</span>)</span><br><span class="line">            ans += str(abs(remainder))</span><br><span class="line">            n //= <span class="number">-2</span></span><br><span class="line">            n += (remainder &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[::<span class="number">-1</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> to_neg_binary(to_ten(arr1) + to_ten(arr2))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1154-Day-of-the-Year"><a href="#1154-Day-of-the-Year" class="headerlink" title="1154. Day of the Year"></a>1154. Day of the Year</h3><p>根据输入的日期，返回它是一年中的第几天。<br><a href="https://leetcode.com/problems/ordinal-number-of-date/" target="_blank" rel="noopener">查看原题</a></p>
+<ul>
+<li><p>使用了datetime库，开始还自己手动减</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dayOfYear</span><span class="params">(self, date: str)</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">import</span> datetime</span><br><span class="line">    date = datetime.datetime.strptime(date, <span class="string">'%Y-%m-%d'</span>)</span><br><span class="line">    <span class="keyword">return</span> date.timetuple().tm_yday</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1155-Number-of-Dice-Rolls-With-Target-Sum"><a href="#1155-Number-of-Dice-Rolls-With-Target-Sum" class="headerlink" title="1155. Number of Dice Rolls With Target Sum"></a>1155. Number of Dice Rolls With Target Sum</h3><p>扔一个f面的 骰子d次，结果为target的次数。<br><a href="https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: d &#x3D; 2, f &#x3D; 6, target &#x3D; 7</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: </span><br><span class="line">You throw two dice, each with 6 faces.  There are 6 ways to get a sum of 7:</span><br><span class="line">1+6, 2+5, 3+4, 4+3, 5+2, 6+1.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numRollsToTarget</span><span class="params">(self, d: int, f: int, target: int)</span> -&gt; int:</span></span><br><span class="line">    last_p = collections.defaultdict(int)</span><br><span class="line">    last_p.update(&#123;d: <span class="number">1</span> <span class="keyword">for</span> d <span class="keyword">in</span> range(<span class="number">1</span>, f+<span class="number">1</span>)&#125;)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, d+<span class="number">1</span>):</span><br><span class="line">        new_p = collections.defaultdict(int)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i, i*f+<span class="number">1</span>):</span><br><span class="line">            new_p[j] = sum(last_p[j-k] <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, f+<span class="number">1</span>))</span><br><span class="line">        last_p = new_p</span><br><span class="line">    <span class="keyword">return</span> last_p[target] % (<span class="number">10</span>**<span class="number">9</span>+<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1093-Statistics-from-a-Large-Sample"><a href="#1093-Statistics-from-a-Large-Sample" class="headerlink" title="1093. Statistics from a Large Sample"></a>1093. Statistics from a Large Sample</h3><p>统计大量的样本数据，求最小值，最大值，平均值，众数。<br><a href="https://leetcode.com/problems/statistics-from-a-large-sample/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: count &#x3D; [0,1,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</span><br><span class="line">Output: [1.00000,3.00000,2.37500,2.50000,3.00000]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>中位数的求法这里没想到，使用二分可以完美的解决奇偶问题。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sampleStats</span><span class="params">(self, count: List[int])</span> -&gt; List[float]:</span></span><br><span class="line">    n = sum(count)</span><br><span class="line">    mi = next(i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">255</span>) <span class="keyword">if</span> count[i]) * <span class="number">1.0</span></span><br><span class="line">    ma = next(i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">255</span>, <span class="number">-1</span>, <span class="number">-1</span>) <span class="keyword">if</span> count[i]) * <span class="number">1.0</span></span><br><span class="line">    mean = sum(i * val <span class="keyword">for</span> i, val <span class="keyword">in</span> enumerate(count)) * <span class="number">1.0</span> / n</span><br><span class="line">    mode = count.index(max(count)) * <span class="number">1.0</span></span><br><span class="line">    cc = list(itertools.accumulate(count))</span><br><span class="line">    left = bisect.bisect(cc, (n<span class="number">-1</span>)//<span class="number">2</span>)</span><br><span class="line">    right = bisect.bisect(cc, n//<span class="number">2</span>)</span><br><span class="line">    median = (left + right) / <span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> mi, ma, mean, median, mode</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1103-Distribute-Candies-to-People"><a href="#1103-Distribute-Candies-to-People" class="headerlink" title="1103. Distribute Candies to People"></a>1103. Distribute Candies to People</h3><p>发糖果，按照顺序每个人比上一人多一颗，发到最后再循环。<br><a href="https://leetcode.com/problems/distribute-candies-to-people/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: candies &#x3D; 7, num_people &#x3D; 4</span><br><span class="line">Output: [1,2,3,1]</span><br><span class="line">Explanation:</span><br><span class="line">On the first turn, ans[0] +&#x3D; 1, and the array is [1,0,0,0].</span><br><span class="line">On the second turn, ans[1] +&#x3D; 2, and the array is [1,2,0,0].</span><br><span class="line">On the third turn, ans[2] +&#x3D; 3, and the array is [1,2,3,0].</span><br><span class="line">On the fourth turn, ans[3] +&#x3D; 1 (because there is only one candy left), and the final array is [1,2,3,1].</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">distributeCandies</span><span class="params">(self, candies: int, n: int)</span> -&gt; List[int]:</span></span><br><span class="line">    ans = [<span class="number">0</span>] * n</span><br><span class="line">    cur = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> candies &gt; <span class="number">0</span>:</span><br><span class="line">        ans[cur%n<span class="number">-1</span>] += min(candies, cur)</span><br><span class="line">        candies -= cur</span><br><span class="line">        cur += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1109-Corporate-Flight-Bookings"><a href="#1109-Corporate-Flight-Bookings" class="headerlink" title="1109. Corporate Flight Bookings"></a>1109. Corporate Flight Bookings</h3><p>通过给定的一些区间，确定每天的座位数。<br><a href="https://leetcode.com/problems/corporate-flight-bookings/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: bookings &#x3D; [[1,2,10],[2,3,20],[2,5,25]], n &#x3D; 5</span><br><span class="line">Output: [10,55,45,25,25]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>记录变化的状态，然后累加求结果。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">corpFlightBookings</span><span class="params">(self, bookings: List[List[int]], n: int)</span> -&gt; List[int]:</span></span><br><span class="line">    ans = [<span class="number">0</span>] * (n+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> s, e, v <span class="keyword">in</span> bookings:</span><br><span class="line">        ans[s<span class="number">-1</span>] += v</span><br><span class="line">        ans[e] -= v</span><br><span class="line">    <span class="keyword">return</span> list(itertools.accumulate(ans))[:<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1175-Prime-Arrangements"><a href="#1175-Prime-Arrangements" class="headerlink" title="1175. Prime Arrangements"></a>1175. Prime Arrangements</h3><p>质数排列。<br><a href="https://leetcode.com/problems/prime-arrangements/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: n &#x3D; 5</span><br><span class="line">Output: 12</span><br><span class="line">Explanation: For example [1,2,5,4,3] is a valid permutation, but [5,2,3,4,1] is not because the prime number 5 is at index 1.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解法</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numPrimeArrangements</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">countPrimes</span><span class="params">(n)</span>:</span></span><br><span class="line">        is_prime = [<span class="literal">False</span>]*<span class="number">2</span> + [<span class="literal">True</span>]*(n<span class="number">-2</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, int(n ** <span class="number">0.5</span>)+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> is_prime[i]:</span><br><span class="line">                is_prime[i*i:n:i] = [<span class="literal">False</span>] * len(is_prime[i*i:n:i])</span><br><span class="line">        <span class="keyword">return</span> sum(is_prime)</span><br><span class="line">    c = countPrimes(n+<span class="number">1</span>)</span><br><span class="line">    ans = math.factorial(c) * math.factorial(n-c)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ans % (<span class="number">10</span>**<span class="number">9</span>+<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1360-Number-of-Days-Between-Two-Dates"><a href="#1360-Number-of-Days-Between-Two-Dates" class="headerlink" title="1360. Number of Days Between Two Dates"></a>1360. Number of Days Between Two Dates</h3><p>计算两个日期之间的天数。<br><a href="https://leetcode.com/problems/number-of-days-between-two-dates/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: date1 &#x3D; &quot;2020-01-15&quot;, date2 &#x3D; &quot;2019-12-31&quot;</span><br><span class="line">Output: 15</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：简单的datetime模块方式。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">daysBetweenDates</span><span class="params">(self, date1: str, date2: str)</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line">    d1 = datetime.strptime(date1, <span class="string">'%Y-%m-%d'</span>)</span><br><span class="line">    d2 = datetime.strptime(date2, <span class="string">'%Y-%m-%d'</span>)</span><br><span class="line">    <span class="keyword">return</span> abs((d2-d1).days)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法二：有个公式，如果将1月二月看成是13月和14月，那么月份转化天数有个公式(153 * m + 8) // 5</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">daysBetweenDates</span><span class="params">(self, date1: str, date2: str)</span> -&gt; int:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(date)</span>:</span></span><br><span class="line">        y, m, d = map(int, date.split(<span class="string">'-'</span>))</span><br><span class="line">        <span class="keyword">if</span> m &lt; <span class="number">3</span>:</span><br><span class="line">            m += <span class="number">12</span></span><br><span class="line">            y -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">365</span> * y + y // <span class="number">4</span> + y // <span class="number">400</span> - y // <span class="number">100</span> + d + (<span class="number">153</span> * m + <span class="number">8</span>) // <span class="number">5</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> abs(f(date1) - f(date2))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="1363-Largest-Multiple-of-Three"><a href="#1363-Largest-Multiple-of-Three" class="headerlink" title="1363. Largest Multiple of Three"></a>1363. Largest Multiple of Three</h3><p>组成的最大的3的倍数。<br><a href="https://leetcode.com/problems/largest-multiple-of-three/" target="_blank" rel="noopener">查看原题</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Input: digits &#x3D; [8,1,9]</span><br><span class="line">Output: &quot;981&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法一：简单的datetime模块方式。</p>
+  <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">largestMultipleOfThree</span><span class="params">(self, A)</span>:</span></span><br><span class="line">    total = sum(A)</span><br><span class="line">    count = collections.Counter(A)</span><br><span class="line">    A.sort(reverse=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(i)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> count[i]:</span><br><span class="line">            A.remove(i)</span><br><span class="line">            count[i] -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> A: <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> any(A): <span class="keyword">return</span> <span class="string">'0'</span></span><br><span class="line">        <span class="keyword">if</span> sum(A) % <span class="number">3</span> == <span class="number">0</span>: <span class="keyword">return</span> <span class="string">''</span>.join(map(str, A))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> total % <span class="number">3</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> f(<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">if</span> total % <span class="number">3</span> == <span class="number">1</span> <span class="keyword">and</span> count[<span class="number">1</span>] + count[<span class="number">4</span>] + count[<span class="number">7</span>]:</span><br><span class="line">        <span class="keyword">return</span> f(<span class="number">1</span>) <span class="keyword">or</span> f(<span class="number">4</span>) <span class="keyword">or</span> f(<span class="number">7</span>)</span><br><span class="line">    <span class="keyword">if</span> total % <span class="number">3</span> == <span class="number">2</span> <span class="keyword">and</span> count[<span class="number">2</span>] + count[<span class="number">5</span>] + count[<span class="number">8</span>]:</span><br><span class="line">        <span class="keyword">return</span> f(<span class="number">2</span>) <span class="keyword">or</span> f(<span class="number">5</span>) <span class="keyword">or</span> f(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">if</span> total % <span class="number">3</span> == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> f(<span class="number">1</span>) <span class="keyword">or</span> f(<span class="number">1</span>) <span class="keyword">or</span> f(<span class="number">4</span>) <span class="keyword">or</span> f(<span class="number">4</span>) <span class="keyword">or</span> f(<span class="number">7</span>) <span class="keyword">or</span> f(<span class="number">7</span>)</span><br><span class="line">    <span class="keyword">return</span> f(<span class="number">2</span>) <span class="keyword">or</span> f(<span class="number">2</span>) <span class="keyword">or</span> f(<span class="number">5</span>) <span class="keyword">or</span> f(<span class="number">5</span>) <span class="keyword">or</span> f(<span class="number">8</span>) <span class="keyword">or</span> f(<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>Bit manipulation(位运算)</title>
     <url>/2016/09/28/bit-manipulation/</url>
     <content><![CDATA[<blockquote>
